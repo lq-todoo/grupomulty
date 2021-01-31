@@ -39,7 +39,6 @@ Punto de Venta Colombia Extension de Impuestos:
   """,
     'depends': [
         'point_of_sale',
-        'l10n_co_res_partner',
     ],
     'data': [
         'security/ir.model.access.csv',
