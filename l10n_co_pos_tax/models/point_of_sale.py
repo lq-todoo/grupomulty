@@ -77,7 +77,6 @@ class PosOrder(models.Model):
             'account_analytic_id': tax['analytic'] or False,
         }
 
-    @api.multi
     def get_taxes_values(self):
         tax_grouped = {}
 
@@ -141,7 +140,6 @@ class PosOrder(models.Model):
 
         return tax_grouped
 
-    @api.multi
     def _compute_company_taxes(self):
         company_tax = self.env['pos.order.line.company_tax']
         ctx = dict(self._context)
@@ -207,7 +205,6 @@ class PosOrder(models.Model):
             order._compute_company_taxes()
         return order
 
-    @api.multi
     def refund(self):
         abs = super(PosOrder, self).refund()
 
@@ -231,7 +228,6 @@ class PosOrder(models.Model):
         }
         return vals
 
-    @api.multi
     def _create_account_move_line(self, session=None, move_id=None):
         res = super(PosOrder, self)._create_account_move_line(session, move_id)
 
@@ -381,7 +377,6 @@ class PosConfig(models.Model):
     _name = 'pos.config'
     _inherit = 'pos.config'
 
-    @api.multi
     def _get_has_valid_dian_info(self):
         for pos in self:
             if pos.sequence_id.use_dian_control:
@@ -440,7 +435,6 @@ class pos_session(models.Model):
     mac = fields.Char('MAC')
     macpc = get_mac()
 
-    @api.multi
     def _confirm_orders(self):
         res = super(pos_session, self)._confirm_orders()
         if res:
