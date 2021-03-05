@@ -78,6 +78,8 @@ class MrpProduction(models.Model):
                                 }))
 
                             mrp_order.update({'move_raw_ids':list_value})
+                            self.action_confirm()
+        		     self.action_assign()
         return True
 
 
