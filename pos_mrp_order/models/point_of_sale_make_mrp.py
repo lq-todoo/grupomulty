@@ -21,6 +21,8 @@
 
 from odoo import models, fields, api
 from odoo.exceptions import Warning
+import logging
+_logger = logging.getLogger(__name__)
 
 
 class MrpProduction(models.Model):
@@ -78,8 +80,9 @@ class MrpProduction(models.Model):
                                 }))
 
                             mrp_order.update({'move_raw_ids':list_value})
-                            self.action_confirm()
-        		     self.action_assign()
+                            mrp_order.action_confirm()
+                            mrp_order.action_assign()
+                            _logger.error('aqui----------------\n')
         return True
 
 
