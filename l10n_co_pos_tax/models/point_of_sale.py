@@ -412,8 +412,6 @@ class PosConfig(models.Model):
         _logger.info('verificando')
         _logger.info('verificando')
         IrSequence = self.env['ir.sequence']
-
-
         val = {
             'name': 'POS Refund %s' % values['name'],
             'padding': 4,
@@ -428,7 +426,6 @@ class PosConfig(models.Model):
 
 class pos_session(models.Model):
     _inherit = 'pos.session'
-
     taxes_description = fields.Html('taxes Description', compute='compute_taxes_description')
     refund_description = fields.Html('Refund Description', compute='compute_refund_description')
     amount_change = fields.Float('Change', compute='compute_amount_change')
