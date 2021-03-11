@@ -4,7 +4,8 @@
 
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
-
+import logging
+_logger = logging.getLogger(__name__)
 
 class ResPartner(models.Model):
     _inherit = "res.partner"
@@ -45,6 +46,7 @@ class ResPartner(models.Model):
         elif not self.country_enforce_cities:
             self.city_id = False
 
+
     @api.constrains("zip_id", "country_id", "city_id", "state_id")
     def _check_zip(self):
         if self.env.context.get("skip_check_zip"):
@@ -52,24 +54,40 @@ class ResPartner(models.Model):
         for rec in self:
             if not rec.zip_id:
                 continue
-            if rec.zip_id.city_id.state_id != rec.state_id:
+            _logger.info('checkzip')
+
+            _logger.info(rec.state_id)
+            zip_model = self.env['res.city.zip'].search([('id','=', rec.zip_id.id)])
+            #zipid = zip_model.search('id','=', rec.zip_id.id)
+            _logger.info(zip_model)
+            _logger.info(zip_model.city_id.state_id.id)
+            _logger.info(rec.state_id.id)
+            _logger.info(zip_model.city_id)
+            _logger.info(rec.city_id)
+            _logger.info(zip_model.city_id.country_id.id)
+            _logger.info(rec.country_id.id)
+
+
+            if int(zip_model.city_id.state_id.id) != int(rec.state_id.id):
                 raise ValidationError(
                     _("The state of the partner %s differs from that in " "location %s")
-                    % (rec.name, rec.zip_id.name)
+                    % (rec.name, zip_model.name)
                 )
-            if rec.zip_id.city_id.country_id != rec.country_id:
+            if int(zip_model.city_id.country_id.id) != int(rec.country_id.id):
                 raise ValidationError(
                     _(
                         "The country of the partner %s differs from that in "
                         "location %s"
                     )
-                    % (rec.name, rec.zip_id.name)
+                    % (rec.name, zip_model.name)
                 )
-            if rec.type != 'contact' and rec.zip_id.city_id != rec.city_id:
+            if rec.type != 'contact' and zip_model.city_id != rec.city_id:
                 raise ValidationError(
                     _("The city of partner %s differs from that in " "location %s")
-                    % (rec.name, rec.zip_id.name)
+                    % (rec.name, zip_model.name)
                 )
+            _logger.info('full')
+
 
     @api.onchange("state_id")
     def _onchange_state_id(self):
