@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 13.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-18 21:28+0000\n"
-"PO-Revision-Date: 2021-03-18 21:28+0000\n"
+"POT-Creation-Date: 2021-03-20 11:49+0000\n"
+"PO-Revision-Date: 2021-03-20 11:49+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -22,13 +22,6 @@ msgid "Category"
 msgstr "Categoria"
 
 #. module: report_sabana
-#: model:ir.model.fields,field_description:report_sabana.field_report_sabana__partner_id
-#: model:ir.model.fields,field_description:report_sabana.field_report_sabana_purchase__partner_id
-msgid "Customer"
-msgstr "Cliente"
-
-#. module: report_sabana
-#: model:ir.model.fields,field_description:report_sabana.field_report_sabana__partner_type_id
 #: model:ir.model.fields,field_description:report_sabana.field_report_sabana_purchase__partner_type_id
 msgid "Customer Type"
 msgstr "Tipo de Cliente"
@@ -44,7 +37,7 @@ msgstr "Fecha"
 #: model:ir.model.fields,field_description:report_sabana.field_account_move__partner_deal_id_1
 #: model:ir.model.fields,field_description:report_sabana.field_purchase_order__partner_deal_id
 #: model:ir.model.fields,field_description:report_sabana.field_report_sabana__partner_deal_id
-#: model:ir.model.fields,field_description:report_sabana.field_report_sabana_purchase__partner_deal_id
+#: model:ir.model.fields,field_description:report_sabana.field_report_sabana_purchase__partner_deal_id_1
 #: model:ir.model.fields,field_description:report_sabana.field_sale_order__partner_deal_id
 msgid "Deal Name"
 msgstr "Nombre del Negocio"
@@ -174,10 +167,10 @@ msgstr "Orden de Venta"
 #: model:ir.model,name:report_sabana.model_sale_order_line
 msgid "Sales Order Line"
 msgstr ""
-"Lineas de la venta#-#-#-#-#  es_CO.po (Odoo 9.0)  #-#-#-#-#\n"
-"Línea Orden de Venta\n"
 "#-#-#-#-#  es_CO.po (Odoo 9.0)  #-#-#-#-#\n"
-"Línea de Pedido de Venta"
+"Línea de Orden de Ventas\n"
+"#-#-#-#-#  es_CO.po (Odoo 9.0)  #-#-#-#-#\n"
+"Línea de Órdenes de Venta"
 
 #. module: report_sabana
 #: model:ir.model.fields,field_description:report_sabana.field_report_sabana__tax
@@ -202,6 +195,17 @@ msgstr ""
 #: model:ir.model.fields,field_description:report_sabana.field_sale_order__total_weigth
 msgid "Total Weigth"
 msgstr "Peso Total"
+
+#. module: report_sabana
+#: model:ir.model.fields,field_description:report_sabana.field_report_sabana__partner_id
+#: model:ir.model.fields,field_description:report_sabana.field_report_sabana_purchase__partner_id_1
+msgid "Vendor"
+msgstr "Vendedor"
+
+#. module: report_sabana
+#: model:ir.model.fields,field_description:report_sabana.field_report_sabana__partner_type_id
+msgid "Vendor Type"
+msgstr "Tipo de Vendedor"
 
 #. module: report_sabana
 #: model:ir.model.fields,field_description:report_sabana.field_report_sabana__invoice_user_id
