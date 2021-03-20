@@ -8,7 +8,7 @@
         <field name="country_id" position="after">
             <field name="zone" placeholder="Zona"/>
             <div>
-                <field name="partner_deal_id" placeholder="Deal Name"/>             
+                <field name="partner_deal_id" placeholder="Deal Name"/>
             </div>
         </field>
         <xpath expr="//field[(@name='category_id')]" position="after">

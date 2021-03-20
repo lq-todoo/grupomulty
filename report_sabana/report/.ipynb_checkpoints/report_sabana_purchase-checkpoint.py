@@ -17,7 +17,7 @@ class ReportSabanaPurchase(models.Model):
     name = fields.Many2one('account.move','Invoice',readonly=True)
     date_bill = fields.Date('Date',readonly=True)
     nit = fields.Char('Nit',readonly=True)
-    partner_id = fields.Many2one('res.partner','Vendor',readonly=True)
+    partner_id_1 = fields.Many2one('res.partner','Vendor',readonly=True)
     partner_type_id = fields.Many2one('res.partner.type','Customer Type',readonly=True)
     invoice_user_id = fields.Many2one('res.users','Vendors',readonly=True)
     categ_id = fields.Many2one('product.category','Category',readonly=True)
@@ -70,7 +70,7 @@ class ReportSabanaPurchase(models.Model):
         select
         row_number() OVER (ORDER BY aml.id) as id,
         aml.product_id as product_id, aml.move_id as name,am.invoice_date as date_bill,
-        rp.identification_document as nit,am.partner_id as partner_id,
+        rp.identification_document as nit,am.partner_id as partner_id_1,
         rp.partner_type_id as partner_type_id,am.invoice_user_id as invoice_user_id,
         pt.categ_id as categ_id,rp.zone as zone, aml.quantity as quantity,
         aml.price_subtotal as price_purchase,

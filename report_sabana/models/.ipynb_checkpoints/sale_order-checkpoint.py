@@ -37,6 +37,13 @@ class SaleOrderLine(models.Model):
 
     weigth = fields.Float('Weigth',store=True)
     
+    @api.onchange('product_id')
+    def _onchange_partner_id(self):
+        for record in self:
+            record.weigth = 0
+            if record.product_id:
+                record.weigth = record.product_id.weight
+    
     def _prepare_invoice_line(self):
         res = super(SaleOrderLine, self)._prepare_invoice_line()
         res.update({'weigth': self.weigth})
