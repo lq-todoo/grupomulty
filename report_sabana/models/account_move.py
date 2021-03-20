@@ -12,7 +12,13 @@ class AccountMove(models.Model):
     total_weigth_1 = fields.Float('Total Weigth',compute="_compute_total_weigth_1")
     pricelist = fields.Char('Pricelist')
     partner_deal_id = fields.Many2one('res.partner.deal',"Deal Name")
-    partner_deal_id_1 = fields.Many2one('res.partner.deal',"Deal Name",related="partner_id.partner_deal_id")
+    partner_deal_id_1 = fields.Many2one('res.partner.deal',"Deal Name",compute="_compute_partner_deal_id_1")
+    
+    @api.depends('partner_id')
+    def _compute_partner_deal_id_1(self):
+        self.partner_deal_id_1 = None
+        if self.partner_id:
+            self.partner_deal_id_1 = self.partner_id.partner_deal_id
     
     @api.depends('invoice_line_ids.weigth')
     def _compute_total_weigth_1(self):

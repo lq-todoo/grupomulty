@@ -27,8 +27,15 @@ class ReportSabanaPurchase(models.Model):
     subtotal_purchase = fields.Float('Purchase with tax',compute="_compute_subtotal_purchase")
     discount = fields.Float('Discount %',readonly=True)
     weigth = fields.Float('Weigth',readonly=True)
-    partner_deal_id_1 = fields.Many2one('res.partner.deal','Deal Name',readonly=True)
+    partner_deal_id_1 = fields.Many2one('res.partner.deal','Deal Name',compute="_compute_partner_deal_id_1")
     tax = fields.Float('Tax',compute="_compute_tax")
+    
+    @api.depends('partner_id_1')
+    def _compute_partner_deal_id_1(self):
+        for record in self:
+            record.partner_deal_id_1 = None
+            if record.partner_id_1:
+                record.partner_deal_id_1 = record.partner_id_1.partner_deal_id
     
     @api.depends('price_purchase','tax')
     def _compute_subtotal_purchase(self):
@@ -74,8 +81,7 @@ class ReportSabanaPurchase(models.Model):
         rp.partner_type_id as partner_type_id,am.invoice_user_id as invoice_user_id,
         pt.categ_id as categ_id,rp.zone as zone, aml.quantity as quantity,
         aml.price_subtotal as price_purchase,
-        aml.weigth as weigth,aml.discount as discount,
-        am.partner_deal_id_1 as partner_deal_id_1
+        aml.weigth as weigth,aml.discount as discount
         from account_move_line aml
         left join account_move am on (am.id = aml.move_id) 
         left join res_partner rp on (rp.id = am.partner_id)
