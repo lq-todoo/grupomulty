@@ -10,9 +10,9 @@
                     <button name="update_action_assign" string="Check Availability" type="object" class="oe_highlight" groups="base.group_user" attrs="{'invisible': [('state', 'in',('done','cancel'))]}"/>
                 </xpath>
                 <xpath expr="//field[@name='origin']" position="after">
-                    <field name="weigth"/>
+                    <field name="total_weigth"/>
                 </xpath>
-                <xpath expr="//field[@name='move_line_ids_without_package']/field[name='product_id']" position="after">
+                <xpath expr="//form[1]/sheet[1]/notebook[1]/page[3]/field[@name='move_ids_without_package']/tree[1]/field[@name='product_id']" position="after">
                     <field name="weigth"/>
                 </xpath>
             </field>

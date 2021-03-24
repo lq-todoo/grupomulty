@@ -11,10 +11,10 @@ class StockPicking(models.Model):
         for record in self.move_line_ids_without_package:
             record.qty_done = record.product_uom_qty
             
-    @api.depends('move_line_ids_without_package.weigth')
+    @api.depends('move_ids_without_package.weigth')
     def _compute_total_weigth(self):
         weigth = 0
-        for record in self.move_line_ids_without_package:
+        for record in self.move_ids_without_package:
             if record.product_id:
                 if record.weigth != 0:
                     weigth += record.weigth 
@@ -25,12 +25,12 @@ class StockPicking(models.Model):
                 self.total_weigth = 0
                 
 
-class StockMoveLine(models.Model):
-    _inherit = 'stock.move.line'
+class StockMove(models.Model):
+    _inherit = 'stock.move'
     
     weigth = fields.Float('Weigth',store=True)
     
-    @api.onchange('product_id','product_uom_qty')
+    @api.onchange('product_id','qty_done')
     def _onchange_partner_id(self):
         for record in self:
             record.weigth = 0
