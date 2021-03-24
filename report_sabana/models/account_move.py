@@ -23,6 +23,7 @@ class AccountMove(models.Model):
     @api.depends('invoice_line_ids.weigth')
     def _compute_total_weigth_1(self):
         weigth = 0
+        self.total_weigth_1 = 0
         for record in self.invoice_line_ids:
             if record.product_id:
                 if record.weigth != 0:

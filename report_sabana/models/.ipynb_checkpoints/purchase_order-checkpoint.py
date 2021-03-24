@@ -32,12 +32,12 @@ class PurchaseOrderLine(models.Model):
 
     weigth = fields.Float('Weigth',store=True)
     
-    @api.onchange('product_id')
+    @api.onchange('product_id','product_uom_qty')
     def _onchange_partner_id(self):
         for record in self:
             record.weigth = 0
             if record.product_id:
-                record.weigth = record.product_id.weight
+                record.weigth = record.product_id.weight * record.product_uom_qty
                 
     
     def _prepare_account_move_line(self, move):

@@ -17,19 +17,20 @@ class ReportSabana(models.Model):
     name = fields.Many2one('account.move','Invoice',readonly=True)
     date_bill = fields.Date('Date',readonly=True)
     nit = fields.Char('Nit',readonly=True)
-    partner_id = fields.Many2one('res.partner','Vendor',readonly=True)
-    partner_type_id = fields.Many2one('res.partner.type','Vendor Type',readonly=True)
+    partner_id = fields.Many2one('res.partner','Customer',readonly=True)
+    partner_type_id = fields.Many2one('res.partner.type','Customer Type',readonly=True)
     invoice_user_id = fields.Many2one('res.users','Vendors',readonly=True)
     categ_id = fields.Many2one('product.category','Category',readonly=True)
     zone = fields.Many2one('res.partner.zone','Zone',readonly=True)
     quantity = fields.Float('Quantity',readonly=True)
-    price = fields.Float('Sale without tax',readonly=True)
+    price = fields.Float('Sale without tax',readonly=True)#
     subtotal = fields.Float('Sale with tax',compute="_compute_subtotal")
     discount = fields.Float('Discount %',readonly=True)
     weigth = fields.Float('Weigth',readonly=True)
     pricelist = fields.Char('Pricelist',readonly=True)
     partner_deal_id = fields.Many2one('res.partner.deal','Deal Name',readonly=True)
     tax = fields.Float('Tax',compute="_compute_tax")
+    team_id = fields.Many2one('crm.team','Sold Channel',readonly=True)
     
     @api.depends('price','tax')
     def _compute_subtotal(self):
@@ -76,7 +77,7 @@ class ReportSabana(models.Model):
         pt.categ_id as categ_id,rp.zone as zone, aml.quantity as quantity,
         aml.price_subtotal as price,
         aml.weigth as weigth,aml.discount as discount,am.pricelist as pricelist,
-        am.partner_deal_id as partner_deal_id
+        am.partner_deal_id as partner_deal_id,am.team_id as team_id
         from account_move_line aml
         left join account_move am on (am.id = aml.move_id) 
         left join res_partner rp on (rp.id = am.partner_id)

@@ -18,6 +18,7 @@
     # always loaded
     'data': [
         'views/sale_order_view.xml',
+        'views/stock_picking_view.xml',
         'views/purchase_order_view.xml',
         'views/account_move_view.xml',
         'security/ir.model.access.csv',

@@ -17,10 +17,10 @@ class RespartnerDeal(models.Model):
 class RespartnerMulti(models.Model):
 
     _inherit = "res.partner"
+    
     zone = fields.Many2one('res.partner.zone', string="Zona")
     partner_type_id = fields.Many2one('res.partner.type', string="Tipo de Cliente")
     partner_deal_id = fields.Many2one('res.partner.deal', string="Deal Name")
-
 
 
 

@@ -17,12 +17,13 @@
                    <field name="categ_id"/>
                    <field name="product_id"/>
                    <field name="quantity"/>
-                   <field name="price"/>
+                   <field name="price" string="Sale without tax"/>
                    <field name="tax"/>
                    <field name="weigth"/>
                    <field name="discount"/>
-                   <field name="subtotal"/>
+                   <field name="subtotal" string="Sale with tax"/>
                    <field name="zone"/>
+                   <field name="team_id"/>
                 </tree>
             </field>
         </record>
@@ -42,7 +43,7 @@
                    <field name="nit"/>
                    <field name="partner_id_1"/>
                    <field name="partner_deal_id_1"/>
-                   <field name="partner_type_id"/>
+                   <field name="partner_type_id_1"/>
                    <field name="categ_id"/>
                    <field name="product_id"/>
                    <field name="quantity"/>
