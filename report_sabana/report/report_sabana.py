@@ -83,7 +83,7 @@ class ReportSabana(models.Model):
         left join res_partner rp on (rp.id = am.partner_id)
         left join product_product pp on (pp.id = aml.product_id)
         left join product_template pt on (pt.id = pp.product_tmpl_id)
-        where product_id is not null and am.type = 'out_invoice' and am.state = 'posted'
+        where product_id is not null and (am.type = 'out_invoice' or am.type = 'out_refund') and am.state = 'posted'
         );
         """
         self.env.cr.execute(query)

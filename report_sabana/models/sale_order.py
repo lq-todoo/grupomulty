@@ -10,6 +10,13 @@ class SaleOrder(models.Model):
     
     total_weigth = fields.Float('Total Weigth',compute="_compute_total_weigth",store=True)
     partner_deal_id = fields.Many2one('res.partner.deal',"Deal Name",related="partner_id.partner_deal_id")
+    bool_manager = fields.Boolean('bool',compute='_validate_user_group1')
+    
+    def _validate_user_group1(self):
+        if self.env.user.has_group('sales_team.group_sale_manager'):
+            self.bool_manager = True
+        else:
+            self.bool_manager = False
 
     @api.depends('order_line.weigth')
     def _compute_total_weigth(self):
@@ -36,6 +43,7 @@ class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
     weigth = fields.Float('Weigth',store=True)
+    bool_manager = fields.Boolean('bool',compute='_validate_user_group')
     
     @api.onchange('product_id','product_uom_qty')
     def _onchange_partner_id(self):
@@ -48,3 +56,9 @@ class SaleOrderLine(models.Model):
         res = super(SaleOrderLine, self)._prepare_invoice_line()
         res.update({'weigth': self.weigth})
         return res
+    
+    def _validate_user_group(self):
+        if self.env.user.has_group('sales_team.group_sale_manager'):
+            self.bool_manager = True
+        else:
+            self.bool_manager = False

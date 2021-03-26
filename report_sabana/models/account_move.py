@@ -38,3 +38,10 @@ class AccountMoveLine(models.Model):
     _inherit = 'account.move.line'
     
     weigth = fields.Float('Weigth',store=True)
+    
+    @api.onchange('product_id','quantity')
+    def _onchange_partner_id(self):
+        for record in self:
+            record.weigth = 0
+            if record.product_id:
+                record.weigth = record.product_id.weight * record.quantity
