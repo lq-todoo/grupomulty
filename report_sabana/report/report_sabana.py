@@ -31,14 +31,22 @@ class ReportSabana(models.Model):
     partner_deal_id = fields.Many2one('res.partner.deal','Deal Name',readonly=True)
     tax = fields.Float('Tax',compute="_compute_tax")
     team_id = fields.Many2one('crm.team','Sold Channel',readonly=True)
+    type_credit = fields.Char('Invoice Type',readonly=True)
+    
     
     @api.depends('price','tax')
     def _compute_subtotal(self):
         for record in self:
             if (record.price,record.tax) != 0:
-                record.subtotal = record.price + record.tax
+                if record.type_credit != 'out_refund':
+                    record.subtotal = record.price + record.tax
+                else:
+                    record.subtotal = (record.price + record.tax) * (-1)
             elif record.price != 0:
-                record.subtotal = record.price
+                if record.type_credit != 'out_refund':
+                    record.subtotal = record.price
+                else:
+                    record.subtotal = record.price * (-1)
             else:
                 record.subtotal = 0
     
@@ -71,11 +79,11 @@ class ReportSabana(models.Model):
         
         select
         row_number() OVER (ORDER BY aml.id) as id,
-        aml.product_id as product_id, aml.move_id as name,am.invoice_date as date_bill,
+        aml.product_id as product_id, aml.move_id as name,(case when am.type='out_invoice' then 'Factura de cliente' when am.type='out_refund' then 'Recibo de ventas' end)as type_credit,am.invoice_date as date_bill,
         rp.identification_document as nit,am.partner_id as partner_id,
         rp.partner_type_id as partner_type_id,am.invoice_user_id as invoice_user_id,
         pt.categ_id as categ_id,rp.zone as zone, aml.quantity as quantity,
-        aml.price_subtotal as price,
+        (case when am.type='out_invoice' then aml.price_subtotal when am.type='out_refund' then aml.price_subtotal*(-1) end) as price,
         aml.weigth as weigth,aml.discount as discount,am.pricelist as pricelist,
         am.partner_deal_id as partner_deal_id,am.team_id as team_id
         from account_move_line aml

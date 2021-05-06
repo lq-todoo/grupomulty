@@ -7,6 +7,7 @@
             <field name="arch" type="xml">
                 <tree string="Sabana de Datos" create="0" edit="0">
                    <field name="name"/>
+                   <field name="type_credit"/>
                    <field name="date_bill"/>
                    <field name="nit"/>
                    <field name="partner_id"/>
@@ -17,11 +18,11 @@
                    <field name="categ_id"/>
                    <field name="product_id"/>
                    <field name="quantity"/>
-                   <field name="price" string="Sale without tax"/>
+                   <field name="price" string="Sale without tax" widget='monetary'/>
                    <field name="tax"/>
                    <field name="weigth"/>
                    <field name="discount"/>
-                   <field name="subtotal" string="Sale with tax"/>
+                   <field name="subtotal" string="Sale with tax" widget='monetary'/>
                    <field name="zone"/>
                    <field name="team_id"/>
                 </tree>
@@ -39,6 +40,7 @@
             <field name="arch" type="xml">
                 <tree string="Sabana de Datos" create="0" edit="0">
                    <field name="name"/>
+                   <field name="type_credit"/>
                    <field name="date_bill"/>
                    <field name="nit"/>
                    <field name="partner_id_1"/>

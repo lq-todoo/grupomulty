@@ -10,6 +10,7 @@ class SaleOrder(models.Model):
     
     total_weigth = fields.Float('Total Weigth',compute="_compute_total_weigth",store=True)
     partner_deal_id = fields.Many2one('res.partner.deal',"Deal Name",related="partner_id.partner_deal_id")
+    partner_payment_mean_code_id = fields.Many2one('account.payment.mean.code',"Deal Name",related="partner_id.payment_mean_code_id")
     bool_manager = fields.Boolean('bool',compute='_validate_user_group1')
     
     def _validate_user_group1(self):
@@ -24,12 +25,13 @@ class SaleOrder(models.Model):
         for record in self.order_line:
             if record.product_id:
                 if record.weigth != 0:
-                    weigth += record.weigth 
+                    weigth += record.weigth
                     self.write({'total_weigth':weigth})
                 else:
                     self.total_weigth = 0
             else:
                 self.total_weigth = 0
+        return weigth
                 
     def _prepare_invoice(self):
         invoice_vals = super(SaleOrder, self)._prepare_invoice()
@@ -62,3 +64,23 @@ class SaleOrderLine(models.Model):
             self.bool_manager = True
         else:
             self.bool_manager = False
+            
+
+class PosOrder(models.Model):
+    _inherit = "pos.order"
+    
+    def _prepare_invoice_line(self,order_line):
+        res = super(PosOrder, self)._prepare_invoice_line(order_line)
+        res.update({'weigth': order_line.product_id.weight})
+        return res
+    
+    def _prepare_invoice_vals(self):
+        weight = 0
+        for record in self.lines:
+            weight += record.product_id.weight * record.qty
+        vals = super(PosOrder, self)._prepare_invoice_vals()
+        vals.update({'total_weigth':weight,
+                     'partner_deal_id':self.partner_id.partner_deal_id.id,
+                     'pricelist':self.pricelist_id.name
+                    })
+        return vals

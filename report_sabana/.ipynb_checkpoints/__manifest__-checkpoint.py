@@ -13,7 +13,7 @@
     'version': '13.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['account','sale','report_multi'],
+    'depends': ['account','sale','report_multi','l10n_co_dian_data'],
   
     # always loaded
     'data': [

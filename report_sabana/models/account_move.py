@@ -33,6 +33,13 @@ class AccountMove(models.Model):
                     self.total_weigth_1 = 0
             else:
                 self.total_weigth_1 = 0
+        return weigth
+                
+    @api.onchange('partner_id')
+    def _onchange_partner_payment_mean_code_id(self):
+        if self.partner_id:
+            self.payment_mean_code_id = self.partner_id.payment_mean_code_id.id
+    
     
 class AccountMoveLine(models.Model):
     _inherit = 'account.move.line'

@@ -18,12 +18,13 @@ class PurchaseOrder(models.Model):
         for record in self.order_line:
             if record.product_id:
                 if record.weigth != 0:
-                    weigth += record.weigth 
+                    weigth += record.weigth * record.product_uom_qty
                     self.write({'total_weigth':weigth})
                 else:
                     self.total_weigth = 0
             else:
                 self.total_weigth = 0
+        #return weight
 
 
                 

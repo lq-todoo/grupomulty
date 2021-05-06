@@ -29,6 +29,7 @@ class ReportSabanaPurchase(models.Model):
     weigth = fields.Float('Weigth',readonly=True)
     partner_deal_id_1 = fields.Many2one('res.partner.deal','Deal Name',compute="_compute_partner_deal_id_1")
     tax = fields.Float('Tax',compute="_compute_tax")
+    type_credit = fields.Char('Invoice Type',readonly=True)
     
     @api.depends('partner_id_1')
     def _compute_partner_deal_id_1(self):
@@ -76,18 +77,18 @@ class ReportSabanaPurchase(models.Model):
         
         select
         row_number() OVER (ORDER BY aml.id) as id,
-        aml.product_id as product_id, aml.move_id as name,am.invoice_date as date_bill,
+        aml.product_id as product_id, aml.move_id as name,(case when am.type='in_invoice' then 'Factura de proveedor' when am.type='in_receipt' then 'Recibo de compra' end)as type_credit,am.invoice_date as date_bill,
         rp.identification_document as nit,am.partner_id as partner_id_1,
         rp.partner_type_id as partner_type_id_1,am.invoice_user_id as invoice_user_id,
         pt.categ_id as categ_id,rp.zone as zone, aml.quantity as quantity,
-        aml.price_subtotal as price_purchase,
+        (case when am.type='out_invoice' then aml.price_subtotal when am.type='out_refund' then aml.price_subtotal*(-1) end) as price_purchase,
         aml.weigth as weigth,aml.discount as discount
         from account_move_line aml
         left join account_move am on (am.id = aml.move_id) 
         left join res_partner rp on (rp.id = am.partner_id)
         left join product_product pp on (pp.id = aml.product_id)
         left join product_template pt on (pt.id = pp.product_tmpl_id)
-        where product_id is not null and am.type = 'in_invoice' and am.state = 'posted'
+        where product_id is not null and (am.type = 'in_invoice' or am.type = 'in_receipt') and am.state = 'posted'
         );
         """
         self.env.cr.execute(query)

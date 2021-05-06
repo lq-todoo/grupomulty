@@ -26,6 +26,7 @@
                 </xpath>
                 <xpath expr="//field[@name='pricelist_id']" position="after">
                     <field name="bool_manager" invisible="1"/>
+                    <field name="partner_payment_mean_code_id" />
                 </xpath>
                 <xpath expr="//field[@name='pricelist_id']" position="attributes">
                     <attribute name="attrs">{'readonly':['|',('bool_manager', '!=', True),('state','not in',['draft','sent'])]}</attribute>
