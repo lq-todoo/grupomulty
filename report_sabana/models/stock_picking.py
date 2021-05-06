@@ -22,18 +22,18 @@ class StockPicking(models.Model):
                 if record.weigth != 0:
                     weigth += record.weigth * record.product_uom_qty
                     self.write({'total_weigth':weigth})
+        return weigth
                 
 
 class StockMove(models.Model):
     _inherit = 'stock.move'
     
-    weigth = fields.Float('Weigth')
+    weigth = fields.Float('Weigth',compute="_compute_weigth")
     
-    @api.onchange('product_id')
-    def _onchange_product_id(self):
+    @api.depends('product_id')
+    def _compute_weigth(self):
         for record in self:
             record.weigth = 0
             if record.product_id:
-                _logger.error('entro al if\n')
-                record.weigth = record.product_id.weight #
+                record.weigth = record.product_id.weight
                 
